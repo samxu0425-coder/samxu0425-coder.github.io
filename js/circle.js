@@ -1,5 +1,5 @@
-import { gsap, el, timeline, reduce, mobile } from './setup.js';
-import { WORK } from './content.js';
+import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795248026';
+import { WORK } from './content.js?v=1795248026';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);

@@ -1,11 +1,11 @@
 // Entry point: load each section in scroll order.
-import { ScrollTrigger, lenis } from './setup.js';
-import { EMAIL, FORM_KEY } from './content.js';
-import './hero.js';
-import './pianofi.js';
-import './trivai.js';
-import './finovax.js';
-import './circle.js';
+import { ScrollTrigger, lenis } from './setup.js?v=1795248026';
+import { EMAIL, FORM_KEY } from './content.js?v=1795248026';
+import './hero.js?v=1795248026';
+import './pianofi.js?v=1795248026';
+import './trivai.js?v=1795248026';
+import './finovax.js?v=1795248026';
+import './circle.js?v=1795248026';
 
 // "Work" skips the project sections and lands on the ring once it has formed,
 // where every project is listed with its link.
