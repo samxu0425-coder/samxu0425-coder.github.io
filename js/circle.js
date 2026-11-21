@@ -1,11 +1,11 @@
-import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795283603';
-import { WORK } from './content.js?v=1795283603';
+import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795283939';
+import { WORK } from './content.js?v=1795283939';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);
 const svg = root.querySelector('svg');
 const C = 300, R = 250;
-// Phones hide the outside labels, so the ring can fill the drawing.
+// Phones put the labels inside the ring, so the ring can fill the drawing.
 if (mobile) svg.setAttribute('viewBox', '-25 -25 650 650');
 
 // What comes after the ring: a much bigger arc, with this ring as its first dot
@@ -43,8 +43,15 @@ const dots = WORK.map((w, i) => {
   const g = el('g', { class: 'dot', tabindex: 0, role: 'button', 'aria-label': w.name }, world);
   el('circle', { class: 'hitarea', cx: x, cy: y, r: mobile ? 44 : 30 }, g);
   el('circle', { class: 'core', cx: x, cy: y, r: (w.big ? 11 : 7) * (mobile ? 1.5 : 1) }, g);
-  const anchor = cos > 0.3 ? 'start' : cos < -0.3 ? 'end' : 'middle';
-  el('text', { x: C + (R + 34) * cos, y: C + (R + 34) * sin + (Math.abs(sin) > 0.9 ? (sin > 0 ? 14 : -2) : 5), 'text-anchor': anchor }, g, w.name);
+  if (mobile) {
+    // No room outside the ring on a phone, so the names sit just inside it.
+    const anchor = cos > 0.3 ? 'end' : cos < -0.3 ? 'start' : 'middle';
+    el('text', { x: C + (R - 46) * cos, y: C + (R - 46) * sin + 7, 'text-anchor': anchor,
+      style: `font-size:22px; transform-origin:${anchor === 'end' ? '100%' : anchor === 'start' ? '0%' : '50%'} 50%` }, g, w.name);
+  } else {
+    const anchor = cos > 0.3 ? 'start' : cos < -0.3 ? 'end' : 'middle';
+    el('text', { x: C + (R + 34) * cos, y: C + (R + 34) * sin + (Math.abs(sin) > 0.9 ? (sin > 0 ? 14 : -2) : 5), 'text-anchor': anchor }, g, w.name);
+  }
   const pick = () => select(i);
   g.addEventListener('mouseenter', pick);
   g.addEventListener('click', pick);

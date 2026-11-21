@@ -166,7 +166,9 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
   .question { font-size: 0.82rem; }
 
   .ring-wrap { inset: 9% 4% 47% 4%; }
-  .dot text { display: none; }
+  /* Names inside the ring stay small until their dot is the selected one. */
+  .dot text { transform-box: fill-box; transform: scale(0.72); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .dot.on text { transform: scale(1); }
   .center { left: 0; right: 0; top: 106%; transform: none; text-align: left; }
   .center h3 { font-size: 2rem; }
   .center p { font-size: 0.97rem; line-height: 1.45; }
