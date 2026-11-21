@@ -1,5 +1,5 @@
-import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795294375';
-import { WORK } from './content.js?v=1795294375';
+import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795303040';
+import { WORK } from './content.js?v=1795303040';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);
@@ -88,10 +88,15 @@ function select(i) {
 // Keep the words sized and centred to the ring as the window changes
 function place() {
   if (mobile) return;   // on phones the words sit under the ring, placed by CSS
-  const r = ringLine.getBoundingClientRect(), wrap = svg.parentElement.getBoundingClientRect();
-  center.style.left = (r.left + r.width / 2 - wrap.left) + 'px';
-  center.style.top = (r.top + r.height / 2 - wrap.top) + 'px';
-  center.style.width = (r.width * 0.64) + 'px';
+  // Worked out from the drawing's own frame, not the ring on screen: the ring is
+  // scaled by the scroll animation, so measuring it mid-scroll gives the wrong size.
+  const b = svg.getBoundingClientRect(), wrap = svg.parentElement.getBoundingClientRect();
+  const vb = svg.viewBox.baseVal, s = Math.min(b.width / vb.width, b.height / vb.height);
+  const x = b.left + (b.width - vb.width * s) / 2 + (C - vb.x) * s;
+  const y = b.top + (b.height - vb.height * s) / 2 + (C - vb.y) * s;
+  center.style.left = (x - wrap.left) + 'px';
+  center.style.top = (y - wrap.top) + 'px';
+  center.style.width = (2 * R * s * 0.64) + 'px';
 }
 addEventListener('resize', place);
 place();
