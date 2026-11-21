@@ -1,11 +1,11 @@
 // Entry point: load each section in scroll order.
-import { ScrollTrigger, lenis } from './setup.js?v=1795286814';
-import { EMAIL, FORM_KEY } from './content.js?v=1795286814';
-import './hero.js?v=1795286814';
-import './pianofi.js?v=1795286814';
-import './trivai.js?v=1795286814';
-import './finovax.js?v=1795286814';
-import './circle.js?v=1795286814';
+import { ScrollTrigger, lenis } from './setup.js?v=1795291033';
+import { EMAIL, FORM_KEY } from './content.js?v=1795291033';
+import './hero.js?v=1795291033';
+import './pianofi.js?v=1795291033';
+import './trivai.js?v=1795291033';
+import './finovax.js?v=1795291033';
+import './circle.js?v=1795291033';
 
 // "Work" skips the project sections and lands on the ring once it has formed,
 // where every project is listed with its link.
@@ -16,6 +16,13 @@ document.getElementById('jump-work').addEventListener('click', e => {
   const y = ring.offsetTop + (ring.offsetHeight - innerHeight) * 0.21;
   if (lenis) lenis.scrollTo(y, { duration: 1.6 });
   else scrollTo(0, y);
+});
+
+// "Back to start" at the very end glides up to the top of the page.
+document.getElementById('to-top').addEventListener('click', e => {
+  e.preventDefault();
+  if (lenis) lenis.scrollTo(0, { duration: 2.2 });
+  else scrollTo(0, 0);
 });
 
 // Contact form: Web3Forms forwards the message to Sam's inbox, so nothing pops up.
