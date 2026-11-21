@@ -110,30 +110,35 @@ function draw() {
   ctx.clearRect(0, 0, w, h);
   const top = 24, rows = HI - LO + 1, rh = (h - top) / rows;
   const keyW = Math.max(22, Math.min(44, w * 0.06));
-  const nowX = w - 8, pps = nowX / 7.2, lagX = nowX - LAG * pps;
-  // The keyboard stands where the notes appear: a key goes down at the same
-  // moment, and in the same row, as the note that comes out of it.
-  const kbL = lagX - keyW;
+  // Time runs left to right: you play at the left edge, the keyboard stands
+  // about a second later, and the notes come out of the keys and drift right.
+  // A key goes down at the same moment, and in the same row, as its note.
+  const nowX = 8, right = w - 1, pps = (right - nowX) / 7.2, lagX = nowX + LAG * pps;
+  const kbR = lagX + keyW;
   const t = state.p * (TOTAL + 2.5);
   const heard = t - LAG;               // the roll only knows the audio up to here
   const rowY = n => top + (HI - n) * rh;
 
   // Rows and keys
+  ctx.font = `${Math.min(9, Math.max(7, rh))}px "IBM Plex Mono", monospace`; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
   for (let n = LO; n <= HI; n++) {
     const y = rowY(n), black = isBlack(n);
-    if (black) { ctx.fillStyle = TINT; ctx.fillRect(0, y, kbL, rh); }
+    if (black) { ctx.fillStyle = TINT; ctx.fillRect(kbR, y, right - kbR, rh); }
     const on = NOTES.some(o => o.pitch === n && o.start <= heard && o.start + o.dur > heard);
     ctx.fillStyle = on ? DIM : black ? KEYB : KEYW;
-    ctx.fillRect(kbL, y + 0.5, black ? keyW * 0.62 : keyW, rh - 1);
-    if (LIGHT && !black) { ctx.strokeStyle = FRAME; ctx.lineWidth = 1; ctx.strokeRect(kbL + 0.5, y + 0.5, keyW - 1, rh - 1); }
+    const kw = black ? keyW * 0.62 : keyW;
+    ctx.fillRect(kbR - kw, y + 0.5, kw, rh - 1);
+    if (LIGHT && !black) { ctx.strokeStyle = FRAME; ctx.lineWidth = 1; ctx.strokeRect(lagX + 0.5, y + 0.5, keyW - 1, rh - 1); }
+    // Name the C keys for reference
+    if (n % 12 === 0) { ctx.fillStyle = KEYB; ctx.fillText('C' + (n / 12 - 1), lagX + 3, y + rh / 2 + 0.5); }
   }
   ctx.strokeStyle = FRAME; ctx.lineWidth = 1;
-  ctx.strokeRect(0.5, top + 0.5, nowX - 0.5, h - top - 1);
+  ctx.strokeRect(nowX + 0.5, top + 0.5, right - nowX - 0.5, h - top - 1);
 
   // Audio that has been played but not transcribed yet
   ctx.strokeStyle = DIM; ctx.beginPath();
-  for (let x = lagX + 4; x < nowX - 2; x += 5) {
-    const time = t - (nowX - x) / pps;
+  for (let x = lagX - 4; x > nowX + 2; x -= 5) {
+    const time = t - (x - nowX) / pps;
     if (time < 0 || time > TOTAL) continue;
     const a = (0.25 + 0.75 * Math.abs(Math.sin(time * 9.1) * Math.cos(time * 3.3))) * (h - top) * 0.22;
     const mid = top + (h - top) / 2;
@@ -146,20 +151,20 @@ function draw() {
   for (const o of NOTES) {
     if (o.start > heard) continue;
     const end = Math.min(o.start + o.dur, heard);
-    const x1 = Math.max(1, kbL - (heard - o.start) * pps), x2 = kbL - (heard - end) * pps;
-    if (x2 <= 1) continue;
+    const x1 = kbR + (heard - end) * pps, x2 = Math.min(right - 1, kbR + (heard - o.start) * pps);
+    if (x1 >= right - 1) continue;
     ctx.fillRect(x1, rowY(o.pitch) + 1, Math.max(1.5, x2 - x1), Math.max(2, rh - 2));
   }
 
   // The two lines: where you are, and where the notes are
-  ctx.strokeStyle = FG; ctx.beginPath(); ctx.moveTo(nowX - 0.5, top); ctx.lineTo(nowX - 0.5, h); ctx.stroke();
-  ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(lagX + 0.5, top); ctx.lineTo(lagX + 0.5, h); ctx.stroke();
+  ctx.strokeStyle = FG; ctx.beginPath(); ctx.moveTo(nowX + 0.5, top); ctx.lineTo(nowX + 0.5, h); ctx.stroke();
+  ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(lagX - 0.5, top); ctx.lineTo(lagX - 0.5, h); ctx.stroke();
   ctx.setLineDash([]);
   ctx.font = '10px "IBM Plex Mono", monospace'; ctx.fillStyle = DIM; ctx.textBaseline = 'middle';
-  ctx.textAlign = 'right'; ctx.fillText('YOU PLAY', nowX, 9);
-  ctx.fillText('NOTES APPEAR', kbL - 6, 9);
-  ctx.textAlign = 'center';
-  if (nowX - lagX > 70) ctx.fillText('~1 S', (nowX + lagX) / 2 - 28, 9);
+  ctx.textAlign = 'left'; ctx.fillText('YOU PLAY', nowX, 9);
+  ctx.fillText('NOTES APPEAR', kbR + 6, 9);
+  ctx.textAlign = 'right';
+  if (lagX - nowX > 95) ctx.fillText('~1 S', lagX - 6, 9);
 }
 
 addEventListener('resize', size);
