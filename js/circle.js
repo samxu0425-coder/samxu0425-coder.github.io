@@ -1,5 +1,5 @@
-import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795283939';
-import { WORK } from './content.js?v=1795283939';
+import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795284212';
+import { WORK } from './content.js?v=1795284212';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);
@@ -36,6 +36,7 @@ for (let i = 0; i < 36; i++) {
 }
 
 // One dot per piece of work
+const labels = [], SMALL = 0.72;   // phone labels inside the ring
 const dots = WORK.map((w, i) => {
   const a = (-90 + i * 60) * Math.PI / 180;
   const cos = Math.cos(a), sin = Math.sin(a);
@@ -46,8 +47,11 @@ const dots = WORK.map((w, i) => {
   if (mobile) {
     // No room outside the ring on a phone, so the names sit just inside it.
     const anchor = cos > 0.3 ? 'end' : cos < -0.3 ? 'start' : 'middle';
-    el('text', { x: C + (R - 46) * cos, y: C + (R - 46) * sin + 7, 'text-anchor': anchor,
-      style: `font-size:22px; transform-origin:${anchor === 'end' ? '100%' : anchor === 'start' ? '0%' : '50%'} 50%` }, g, w.name);
+    const lx = C + (R - 46) * cos, ly = C + (R - 46) * sin + 7;
+    const label = el('text', { x: lx, y: ly, 'text-anchor': anchor, style: 'font-size:22px' }, g, w.name);
+    // Small until selected. Scaled around its own anchor point, in drawing units, which every browser agrees on.
+    labels[i] = { label, origin: `${lx} ${ly - 7}` };
+    gsap.set(label, { scale: SMALL, svgOrigin: labels[i].origin });
   } else {
     const anchor = cos > 0.3 ? 'start' : cos < -0.3 ? 'end' : 'middle';
     el('text', { x: C + (R + 34) * cos, y: C + (R + 34) * sin + (Math.abs(sin) > 0.9 ? (sin > 0 ? 14 : -2) : 5), 'text-anchor': anchor }, g, w.name);
@@ -67,6 +71,7 @@ function select(i) {
   if (i === current) return;
   current = i;
   dots.forEach((d, n) => d.classList.toggle('on', n === i));
+  labels.forEach((l, n) => gsap.to(l.label, { scale: n === i ? 1 : SMALL, svgOrigin: l.origin, duration: reduce ? 0 : 0.5, ease: 'expo.out', overwrite: 'auto' }));
   const w = WORK[i];
   title.textContent = w.name;
   desc.textContent = w.text;

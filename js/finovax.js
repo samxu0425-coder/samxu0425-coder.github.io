@@ -1,4 +1,4 @@
-import { gsap, el, timeline, mobile } from './setup.js?v=1795283939';
+import { gsap, el, timeline, mobile } from './setup.js?v=1795284212';
 
 const root = document.getElementById('finovax');
 const q = gsap.utils.selector(root);
