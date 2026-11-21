@@ -1,6 +1,16 @@
 import { gsap, el, timeline, mobile } from './setup.js';
 
-const FG = '#f2f0ea', DIM = '#8a8882', BG = '#070707';
+// Colours come from the page theme, so the canvas follows light and dark mode.
+let FG, DIM, BG, TINT, FRAME, LIGHT, KEYW, KEYB;
+function palette() {
+  const css = getComputedStyle(document.documentElement);
+  FG = css.getPropertyValue('--fg').trim(); DIM = css.getPropertyValue('--dim').trim(); BG = css.getPropertyValue('--bg').trim();
+  TINT = css.getPropertyValue('--tint').trim(); FRAME = css.getPropertyValue('--frame').trim();
+  // Piano keys keep their real colours in both modes.
+  LIGHT = document.documentElement.dataset.theme === 'light';
+  KEYW = LIGHT ? BG : FG; KEYB = LIGHT ? FG : BG;
+}
+palette();
 const root = document.getElementById('pianofi');
 const q = gsap.utils.selector(root);
 
@@ -100,7 +110,10 @@ function draw() {
   ctx.clearRect(0, 0, w, h);
   const top = 24, rows = HI - LO + 1, rh = (h - top) / rows;
   const keyW = Math.max(22, Math.min(44, w * 0.06));
-  const nowX = w - 8, pps = (nowX - keyW) / 6.5, lagX = nowX - LAG * pps;
+  const nowX = w - 8, pps = nowX / 7.2, lagX = nowX - LAG * pps;
+  // The keyboard stands where the notes appear: a key goes down at the same
+  // moment, and in the same row, as the note that comes out of it.
+  const kbL = lagX - keyW;
   const t = state.p * (TOTAL + 2.5);
   const heard = t - LAG;               // the roll only knows the audio up to here
   const rowY = n => top + (HI - n) * rh;
@@ -108,12 +121,13 @@ function draw() {
   // Rows and keys
   for (let n = LO; n <= HI; n++) {
     const y = rowY(n), black = isBlack(n);
-    if (black) { ctx.fillStyle = 'rgba(242,240,234,0.045)'; ctx.fillRect(keyW, y, nowX - keyW, rh); }
+    if (black) { ctx.fillStyle = TINT; ctx.fillRect(0, y, kbL, rh); }
     const on = NOTES.some(o => o.pitch === n && o.start <= heard && o.start + o.dur > heard);
-    ctx.fillStyle = on ? DIM : black ? BG : FG;
-    ctx.fillRect(0, y + 0.5, black ? keyW * 0.62 : keyW, rh - 1);
+    ctx.fillStyle = on ? DIM : black ? KEYB : KEYW;
+    ctx.fillRect(kbL, y + 0.5, black ? keyW * 0.62 : keyW, rh - 1);
+    if (LIGHT && !black) { ctx.strokeStyle = FRAME; ctx.lineWidth = 1; ctx.strokeRect(kbL + 0.5, y + 0.5, keyW - 1, rh - 1); }
   }
-  ctx.strokeStyle = 'rgba(242,240,234,0.25)'; ctx.lineWidth = 1;
+  ctx.strokeStyle = FRAME; ctx.lineWidth = 1;
   ctx.strokeRect(0.5, top + 0.5, nowX - 0.5, h - top - 1);
 
   // Audio that has been played but not transcribed yet
@@ -132,8 +146,8 @@ function draw() {
   for (const o of NOTES) {
     if (o.start > heard) continue;
     const end = Math.min(o.start + o.dur, heard);
-    const x1 = Math.max(keyW + 1, nowX - (t - o.start) * pps), x2 = nowX - (t - end) * pps;
-    if (x2 <= keyW + 1) continue;
+    const x1 = Math.max(1, kbL - (heard - o.start) * pps), x2 = kbL - (heard - end) * pps;
+    if (x2 <= 1) continue;
     ctx.fillRect(x1, rowY(o.pitch) + 1, Math.max(1.5, x2 - x1), Math.max(2, rh - 2));
   }
 
@@ -143,12 +157,13 @@ function draw() {
   ctx.setLineDash([]);
   ctx.font = '10px "IBM Plex Mono", monospace'; ctx.fillStyle = DIM; ctx.textBaseline = 'middle';
   ctx.textAlign = 'right'; ctx.fillText('YOU PLAY', nowX, 9);
-  ctx.fillText('NOTES APPEAR', lagX - 6, 9);
+  ctx.fillText('NOTES APPEAR', kbL - 6, 9);
   ctx.textAlign = 'center';
   if (nowX - lagX > 70) ctx.fillText('~1 S', (nowX + lagX) / 2 - 28, 9);
 }
 
 addEventListener('resize', size);
+addEventListener('themechange', () => { palette(); draw(); });
 size();
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
 

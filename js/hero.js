@@ -13,7 +13,7 @@ sub.innerHTML = sub.textContent.trim().split(' ').map(w => `<span class="w">${w}
 
 const chars = q('.char'), words = q('.sub .w'), glyphs = q('.glyph');
 const hint = root.querySelector('.hint');
-const topNav = document.querySelector('.top');
+const topNav = document.querySelectorAll('.top');
 
 gsap.set([chars, words, glyphs, hint, topNav], { visibility: 'visible' });
 

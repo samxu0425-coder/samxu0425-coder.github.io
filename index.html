@@ -10,6 +10,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300&family=Gloock&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
+<script>
+  // Dark unless the visitor picked light before. Set early so the page never flashes.
+  try { if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch (e) {}
+</script>
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -25,6 +29,9 @@
   <a href="#contact">Contact</a>
   <a href="cv.html">CV</a>
 </nav>
+<button class="top theme" id="theme" type="button" aria-label="Switch between light and dark">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+</button>
 
 <main>
 
@@ -215,5 +222,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script type="module" src="js/main.js"></script>
+<script>
+  document.getElementById('theme').addEventListener('click', () => {
+    const root = document.documentElement, light = root.dataset.theme !== 'light';
+    if (light) root.dataset.theme = 'light'; else delete root.dataset.theme;
+    try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e) {}
+    dispatchEvent(new Event('themechange'));
+  });
+</script>
 </body>
 </html>

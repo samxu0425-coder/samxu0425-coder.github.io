@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gloock&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
+<script>
+  // Dark unless the visitor picked light before. Set early so the page never flashes.
+  try { if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch (e) {}
+</script>
 <style>
   body { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
   .cv-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 18px 24px;
@@ -16,9 +20,9 @@
   .cv-bar a { text-decoration: none; padding: 6px 0; border-bottom: 1px solid transparent; }
   .cv-bar a:hover, .cv-bar a:focus-visible { border-bottom-color: var(--fg); outline: none; }
   .cv-frame { flex: 1; display: flex; padding: 0 24px 24px; }
-  .cv-frame object { flex: 1; width: 100%; max-width: 62rem; margin: 0 auto; min-height: 80vh; border: 1px solid #222; background: #fff; }
-  .cv-fallback { margin: auto; text-align: center; font-family: var(--mono); font-size: 13px; line-height: 2; color: var(--bg); padding: 2rem; }
-  .cv-fallback a { color: var(--bg); }
+  .cv-frame object { flex: 1; width: 100%; max-width: 62rem; margin: 0 auto; min-height: 80vh; border: 1px solid var(--line); background: #fff; }
+  .cv-fallback { margin: auto; text-align: center; font-family: var(--mono); font-size: 13px; line-height: 2; color: #111; padding: 2rem; }
+  .cv-fallback a { color: #111; }
   @media (max-width: 700px) { .cv-bar { padding: 14px 16px; } .cv-frame { padding: 0 8px 8px; } }
 </style>
 </head>
