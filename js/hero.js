@@ -1,4 +1,4 @@
-import { gsap, EASE, reduce } from './setup.js?v=1795285018';
+import { gsap, EASE, reduce } from './setup.js?v=1795286814';
 
 const root = document.getElementById('hero');
 const q = gsap.utils.selector(root);

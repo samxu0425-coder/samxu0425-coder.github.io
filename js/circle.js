@@ -1,5 +1,5 @@
-import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795285018';
-import { WORK } from './content.js?v=1795285018';
+import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795286814';
+import { WORK } from './content.js?v=1795286814';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);
@@ -66,6 +66,7 @@ const dots = WORK.map((w, i) => {
 // Words in the middle
 const center = root.querySelector('.center');
 const title = root.querySelector('.c-title'), desc = root.querySelector('.c-desc'), link = root.querySelector('.c-link');
+const demo = root.querySelector('.c-demo'), note = root.querySelector('.c-note');
 let current = -1;
 function select(i) {
   if (i === current) return;
@@ -77,6 +78,10 @@ function select(i) {
   desc.textContent = w.text;
   link.style.display = w.link ? '' : 'none';
   if (w.link) link.href = w.link;
+  demo.style.display = w.demo ? '' : 'none';
+  if (w.demo) demo.href = w.demo;
+  note.innerHTML = w.note || '';
+  note.style.display = w.note ? '' : 'none';
   if (!reduce) gsap.fromTo(center.children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: 'expo.out', overwrite: true });
 }
 

@@ -1,13 +1,14 @@
 // EDIT: the dots on the circle, in order. `big: true` means it had its own section.
 // Leave `link` out for anything that shouldn't have a "View the code" link.
+// `demo` adds a "Try it" link; `note` is a short line shown under the links.
 const GH = 'https://github.com/samxu0425-coder/';
 
 export const WORK = [
-  { name: 'PianoFi', big: true, link: GH + 'pianofi',
+  { name: 'PianoFi', big: true, link: GH + 'pianofi', demo: 'https://www.pianofi.ca/',
     text: 'A song goes in and piano sheet music comes out. I built the backend and trained the models.' },
-  { name: 'PianoFi Live', big: true, link: GH + 'pianofi-live',
+  { name: 'PianoFi Live', big: true, link: GH + 'pianofi-live', demo: 'https://54-174-0-35.sslip.io/',
     text: 'The same transcription model running live, drawing notes about a second after you play them.' },
-  { name: 'Triv.AI', big: true, link: GH + 'triv.ai',
+  { name: 'Triv.AI', big: true, link: GH + 'triv.ai', demo: 'https://project-b31c7095-e67e-4505-9ea.appspot.com/',
     text: 'A multiplayer trivia game that writes its quiz from your notes and grades answers as you type.' },
   { name: 'Finovax', big: true,
     text: 'My internship this past summer, building a research assistant for quant finance and the evaluation behind it.' },

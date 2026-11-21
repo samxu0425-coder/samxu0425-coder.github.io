@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300&family=Gloock&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=1795285018">
+<link rel="stylesheet" href="css/site.css?v=1795286814">
 <script>
   // Dark unless the visitor picked light before. Set early so the page never flashes.
   try { if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch (e) {}
@@ -140,12 +140,14 @@
     <div class="copy copy-a">
       <h2>PianoFi</h2>
       <p>PianoFi turns a song into piano sheet music. I built the backend that runs the models and trained them, and it picked up its first users within a week of launch.</p>
+      <p class="try"><a href="https://www.pianofi.ca/" target="_blank" rel="noopener">Try PianoFi &nearr;</a></p>
     </div>
 
     <!-- EDIT: PianoFi Live -->
     <div class="copy copy-b">
       <h2>PianoFi Live</h2>
       <p>After PianoFi I wanted the same transcription model to work while someone is actually playing, so I built an engine in C++ that listens to audio and draws the notes on a piano roll in your browser about a second behind. Most of the time went into getting it fast enough on a GPU and cheap enough to leave online.</p>
+      <p class="try"><a href="https://54-174-0-35.sslip.io/" target="_blank" rel="noopener">Try it live &nearr;</a></p>
     </div>
   </section>
 </div>
@@ -158,6 +160,7 @@
     <div class="copy">
       <h2>Triv.AI</h2>
       <p>Triv.AI is a trivia game made from your own notes: you upload a PDF, it writes the quiz, and you play it live with friends while it grades what everyone types. I built the whole thing, with a Flask server in Python behind it.</p>
+      <p class="try"><a href="https://project-b31c7095-e67e-4505-9ea.appspot.com/" target="_blank" rel="noopener">Play Triv.AI &nearr;</a></p>
     </div>
   </section>
 </div>
@@ -186,7 +189,8 @@
       <div class="center" aria-live="polite">
         <h3 class="c-title"></h3>
         <p class="c-desc"></p>
-        <a class="c-link" target="_blank" rel="noopener">View the code</a>
+        <p class="c-links"><a class="c-demo" target="_blank" rel="noopener">Try it &nearr;</a><a class="c-link" target="_blank" rel="noopener">View the code</a></p>
+        <p class="c-note creds"></p>
       </div>
       <!-- EDIT: what's next -->
       <div class="next">
@@ -223,7 +227,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script type="module" src="js/main.js?v=1795285018"></script>
+<script type="module" src="js/main.js?v=1795286814"></script>
 <script>
   document.getElementById('theme').addEventListener('click', () => {
     const root = document.documentElement, light = root.dataset.theme !== 'light';

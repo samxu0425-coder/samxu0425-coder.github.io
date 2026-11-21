@@ -1,4 +1,4 @@
-import { gsap, el, timeline, mobile } from './setup.js?v=1795285018';
+import { gsap, el, timeline, mobile } from './setup.js?v=1795286814';
 
 // Colours come from the page theme, so the canvas follows light and dark mode.
 let FG, DIM, BG, TINT, FRAME, LIGHT, KEYW, KEYB;
@@ -173,7 +173,7 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
 
 /* ---------- Scroll timeline ---------- */
 timeline(root)
-  .from(q('.copy-a'), { opacity: 0, y: 30, duration: 0.6 }, 0)
+  .from(q('.copy-a'), { autoAlpha: 0, y: 30, duration: 0.6 }, 0)
   // a song comes in
   .from(q('.bar'), { scaleY: 0, transformOrigin: '50% 50%', duration: 0.5, stagger: 0.015 }, 0.1)
   .from(q('.lbl-song'), { opacity: 0, duration: 0.3 }, 0.7)
@@ -187,12 +187,12 @@ timeline(root)
   .from(q('.note'), { scale: 0, transformOrigin: '50% 50%', duration: 0.3, stagger: 0.09 }, 2.9)
   .from(q('.lbl-sheet'), { opacity: 0, duration: 0.3 }, 3.6)
   // bridge: everything leaves except the transcription model
-  .to(q('.copy-a'), { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 4.5)
+  .to(q('.copy-a'), { autoAlpha: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 4.5)
   .to(rest, { opacity: 0, duration: 0.6, ease: 'power2.in' }, 4.5)
   .to(amt, { ...L.amtMove, duration: 0.9, ease: 'power2.inOut' }, 4.7)
   // the same model, now live
   .from(cv, { opacity: 0, duration: 0.6 }, 5.4)
-  .from(q('.copy-b'), { opacity: 0, y: 30, duration: 0.6 }, 5.4)
+  .from(q('.copy-b'), { autoAlpha: 0, y: 30, duration: 0.6 }, 5.4)
   .to(state, { p: 1, duration: 6, ease: 'none', onUpdate: draw }, 5.8)
   // leave
   .to(q('.stage'), { opacity: 0, duration: 0.5, ease: 'power2.in' }, 11.9);
