@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sam Xu</title>
+<meta name="description" content="Sam Xu is a math and CS student at NYU who mostly builds backend and ML systems.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300&family=Gloock&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!--
+  EDITING THE WORDS
+  All the section copy is in this file: look for the EDIT comments below.
+  The sentences inside the circle are in js/content.js.
+-->
+
+<nav class="top" aria-label="Main">
+  <a href="#circle" id="jump-work">Work</a>
+  <a href="#contact">Contact</a>
+  <a href="cv.html">CV</a>
+</nav>
+
+<main>
+
+<!-- ================= 1. HERO ================= -->
+<div class="track" id="hero">
+  <section class="stage hero" aria-label="Intro">
+
+    <figure class="glyph g-keys" data-dx="-1" data-dy="-0.6">
+      <div class="float">
+        <svg viewBox="0 0 100 60" aria-hidden="true">
+          <rect class="s" x="1" y="1" width="98" height="58"/>
+          <path class="s" d="M15 1V59M29 1V59M43 1V59M57 1V59M71 1V59M85 1V59"/>
+          <rect class="f" x="10.5" y="1" width="9" height="34"/>
+          <rect class="f" x="24.5" y="1" width="9" height="34"/>
+          <rect class="f" x="52.5" y="1" width="9" height="34"/>
+          <rect class="f" x="66.5" y="1" width="9" height="34"/>
+          <rect class="f" x="80.5" y="1" width="9" height="34"/>
+        </svg>
+        <figcaption>music</figcaption>
+      </div>
+    </figure>
+
+    <figure class="glyph g-layers" data-dx="0.1" data-dy="-1">
+      <div class="float">
+        <svg viewBox="0 0 100 60" aria-hidden="true">
+          <path class="s" d="M50 2 96 16 50 30 4 16Z"/>
+          <path class="s" d="M4 30 50 44 96 30"/>
+          <path class="s" d="M4 44 50 58 96 44"/>
+        </svg>
+        <figcaption>large-scale modeling</figcaption>
+      </div>
+    </figure>
+
+    <figure class="glyph g-tokens" data-dx="1" data-dy="-0.6">
+      <div class="float">
+        <svg viewBox="0 0 100 60" aria-hidden="true">
+          <rect class="s" x="1" y="6" width="26" height="12" rx="3"/>
+          <rect class="s" x="32" y="6" width="14" height="12" rx="3"/>
+          <rect class="s" x="51" y="6" width="34" height="12" rx="3"/>
+          <rect class="s" x="1" y="24" width="16" height="12" rx="3"/>
+          <rect class="s" x="22" y="24" width="38" height="12" rx="3"/>
+          <rect class="s" x="65" y="24" width="20" height="12" rx="3"/>
+          <rect class="s" x="1" y="42" width="30" height="12" rx="3"/>
+          <rect class="f" x="36" y="42" width="12" height="12" rx="3"/>
+        </svg>
+        <figcaption>LLMs</figcaption>
+      </div>
+    </figure>
+
+    <figure class="glyph g-dots" data-dx="1" data-dy="0.7">
+      <div class="float">
+        <svg viewBox="0 0 100 60" aria-hidden="true">
+          <path class="s" d="M52 30 30 14M52 30 74 18M52 30 68 46M52 30 34 44"/>
+          <circle class="f" cx="52" cy="30" r="4"/>
+          <circle class="s" cx="30" cy="14" r="3"/>
+          <circle class="s" cx="74" cy="18" r="3"/>
+          <circle class="s" cx="68" cy="46" r="3"/>
+          <circle class="s" cx="34" cy="44" r="3"/>
+          <circle class="s" cx="10" cy="28" r="3"/>
+          <circle class="s" cx="90" cy="38" r="3"/>
+          <circle class="s" cx="52" cy="6" r="3"/>
+          <circle class="s" cx="14" cy="52" r="3"/>
+          <circle class="s" cx="88" cy="8" r="3"/>
+        </svg>
+        <figcaption>machine learning</figcaption>
+      </div>
+    </figure>
+
+    <figure class="glyph g-play" data-dx="-1" data-dy="0.7">
+      <div class="float">
+        <svg viewBox="0 0 100 60" aria-hidden="true">
+          <path class="s" d="M1 48H99"/>
+          <path class="s" d="M8 48V42M22 48V42M36 48V42M50 48V42M64 48V42M78 48V42M92 48V42"/>
+          <path class="s" d="M6 30H26M14 20H44M34 10H52"/>
+          <path class="s" d="M58 4V56"/>
+          <path class="f" d="M53 2H63L58 9Z"/>
+        </svg>
+        <figcaption>real-time systems</figcaption>
+      </div>
+    </figure>
+
+    <div class="hero-text">
+      <!-- EDIT: hero headline and line -->
+      <h1 aria-label="Sam I am.">Sam I am.</h1>
+      <p class="sub">I'm a math and CS student at NYU who mostly builds backend and ML systems.</p>
+    </div>
+
+    <div class="hint"><span>Scroll</span></div>
+  </section>
+</div>
+
+<!-- ================= 2. PIANOFI INTO PIANOFI LIVE ================= -->
+<div class="track" id="pianofi">
+  <section class="stage">
+    <div class="visual">
+      <svg id="pipe" viewBox="0 0 1000 400" aria-hidden="true">
+        <g id="rest"></g>
+        <g id="amt"></g>
+      </svg>
+      <canvas id="roll" aria-hidden="true"></canvas>
+    </div>
+
+    <!-- EDIT: PianoFi -->
+    <div class="copy copy-a">
+      <h2>PianoFi</h2>
+      <p>PianoFi turns a song into piano sheet music. I built the backend that runs the models and trained them, and it picked up its first users within a week of launch.</p>
+    </div>
+
+    <!-- EDIT: PianoFi Live -->
+    <div class="copy copy-b">
+      <h2>PianoFi Live</h2>
+      <p>After PianoFi I wanted the same transcription model to work while someone is actually playing, so I built an engine in C++ that listens to audio and draws the notes on a piano roll in your browser about a second behind. Most of the time went into getting it fast enough on a GPU and cheap enough to leave online.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 3. TRIV.AI ================= -->
+<div class="track" id="trivai">
+  <section class="stage">
+    <div class="visual"><svg viewBox="0 0 1000 400" aria-hidden="true"></svg></div>
+    <!-- EDIT: Triv.AI -->
+    <div class="copy">
+      <h2>Triv.AI</h2>
+      <p>Triv.AI is a trivia game made from your own notes: you upload a PDF, it writes the quiz, and you play it live with friends while it grades what everyone types. I built the whole thing, with a Flask server in Python behind it.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 4. FINOVAX ================= -->
+<div class="track" id="finovax">
+  <section class="stage">
+    <div class="visual">
+      <svg viewBox="0 0 1000 400" aria-hidden="true"></svg>
+      <!-- EDIT: the example question that types itself -->
+      <p class="question" aria-hidden="true">Compare momentum and mean reversion.</p>
+    </div>
+    <!-- EDIT: Finovax -->
+    <div class="copy">
+      <h2>Finovax</h2>
+      <p>This past summer I interned at Finovax on the machine learning side, where I built a research assistant for quant finance that pulls up the relevant material and writes an answer from it. A good chunk of the job was building the evaluation that showed where retrieval was getting things wrong, so I could fix it before launch.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 5. THE CIRCLE ================= -->
+<div class="track" id="circle">
+  <section class="stage">
+    <div class="ring-wrap">
+      <svg viewBox="-170 -40 940 680" role="img" aria-label="Everything Sam has built, arranged on a circle"></svg>
+      <div class="center" aria-live="polite">
+        <h3 class="c-title"></h3>
+        <p class="c-desc"></p>
+        <a class="c-link" target="_blank" rel="noopener">View the code</a>
+      </div>
+      <!-- EDIT: what's next -->
+      <div class="next">
+        <h3>What's Next?</h3>
+        <p>That's everything so far. I graduate in 2028 and the next spot is open, so if you're building something around ML systems or real-time audio, I'd like to hear about it.</p>
+        <a href="#contact">Write to me</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 6. CONTACT ================= -->
+<section class="contact" id="contact">
+  <div>
+    <h2>Say hi.</h2>
+    <form id="msg">
+      <label>Your name <input name="name" autocomplete="name" required></label>
+      <label>Your email <input name="email" type="email" autocomplete="email" required></label>
+      <label>Message <textarea name="message" rows="5" required></textarea></label>
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" hidden>
+      <button type="submit">Send</button>
+      <p class="note" role="status" aria-live="polite"></p>
+    </form>
+    <ul>
+      <li><a href="mailto:sx2472@nyu.edu">sx2472@nyu.edu</a></li>
+      <li><a href="https://github.com/samxu0425-coder" target="_blank" rel="noopener">github.com/samxu0425-coder</a></li>
+    </ul>
+    <small>New York, NY</small>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

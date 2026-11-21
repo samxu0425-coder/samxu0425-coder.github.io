@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sam Xu, CV</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  body { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+  .cv-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 18px 24px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .cv-bar a { text-decoration: none; padding: 6px 0; border-bottom: 1px solid transparent; }
+  .cv-bar a:hover, .cv-bar a:focus-visible { border-bottom-color: var(--fg); outline: none; }
+  .cv-frame { flex: 1; display: flex; padding: 0 24px 24px; }
+  .cv-frame object { flex: 1; width: 100%; max-width: 62rem; margin: 0 auto; min-height: 80vh; border: 1px solid #222; background: #fff; }
+  .cv-fallback { margin: auto; text-align: center; font-family: var(--mono); font-size: 13px; line-height: 2; color: var(--bg); padding: 2rem; }
+  .cv-fallback a { color: var(--bg); }
+  @media (max-width: 700px) { .cv-bar { padding: 14px 16px; } .cv-frame { padding: 0 8px 8px; } }
+</style>
+</head>
+<body>
+  <header class="cv-bar">
+    <a href="./">&larr; Back</a>
+    <a href="cv.pdf" download="Sam_Xu_CV.pdf">Download PDF</a>
+  </header>
+  <main class="cv-frame">
+    <object data="cv.pdf#view=FitH" type="application/pdf" aria-label="Sam Xu's CV">
+      <p class="cv-fallback">This browser can't show the PDF here.<br><a href="cv.pdf">Open the PDF</a></p>
+    </object>
+  </main>
+</body>
+</html>
