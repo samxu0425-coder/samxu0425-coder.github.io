@@ -1,4 +1,4 @@
-import { gsap, el, timeline, mobile } from './setup.js?v=1795291033';
+import { gsap, el, timeline, mobile } from './setup.js?v=1795294375';
 
 // Colours come from the page theme, so the canvas follows light and dark mode.
 let FG, DIM, BG, TINT, FRAME, LIGHT, KEYW, KEYB;

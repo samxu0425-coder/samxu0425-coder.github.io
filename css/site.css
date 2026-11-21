@@ -26,7 +26,11 @@ a { color: var(--fg); }
 .track { height: var(--len, 550vh); }
 .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 
-.visual { position: absolute; left: 4%; right: 4%; top: 9%; bottom: 40%; }
+/* The drawing takes whatever height the words leave, so the two can never overlap,
+   whatever the screen's shape. Both copies of a section share the bottom row. */
+:is(#pianofi, #trivai, #finovax) .stage { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+  row-gap: clamp(14px, 3vh, 36px); padding: max(60px, 9vh) 4% clamp(20px, 7vh, 72px); }
+.visual { position: relative; grid-area: 1 / 1; min-height: 0; }
 .visual svg, .visual canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .visual svg { overflow: visible; }
 
@@ -37,9 +41,9 @@ svg .bgfill { fill: var(--bg); }
 svg text { font-family: var(--mono); fill: var(--fg); font-size: 15px; letter-spacing: 0.06em; }
 svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
 
-.copy { position: absolute; left: 5%; right: 5%; bottom: 8%; max-width: 44rem; }
-.copy h2 { font-family: var(--headline); font-weight: 400; font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: 1; letter-spacing: -0.02em; }
-.copy p { margin-top: 1rem; font-weight: 300; font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.5; max-width: 38rem; }
+.copy { grid-area: 2 / 1; align-self: end; margin: 0 1%; max-width: 44rem; }
+.copy h2 { font-family: var(--headline); font-weight: 400; font-size: clamp(2rem, min(6vw, 8vh), 4.5rem); line-height: 1; letter-spacing: -0.02em; }
+.copy p { margin-top: 1rem; font-weight: 300; font-size: clamp(0.95rem, min(1.5vw, 2.6vh), 1.25rem); line-height: 1.5; max-width: 38rem; }
 
 /* ---------- Our own scrollbar ---------- */
 /* A thin marker on the right edge. It shows while you scroll and fades once you stop. */
@@ -72,7 +76,7 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
 #hero { --len: 220vh; }
 .stage.hero { display: grid; place-items: center; }
 .hero-text { text-align: center; padding: 0 16px; position: relative; z-index: 2; }
-.hero h1 { font-family: var(--headline); font-weight: 400; font-size: clamp(3.5rem, 15vw, 13rem);
+.hero h1 { font-family: var(--headline); font-weight: 400; font-size: clamp(3.5rem, min(15vw, 26vh), 13rem);
   line-height: 0.9; letter-spacing: -0.02em; white-space: nowrap; }
 .word { display: inline-block; overflow: hidden; padding: 0.08em 0.02em 0.12em; vertical-align: top; }
 .char { display: inline-block; will-change: transform; }
@@ -81,9 +85,8 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
 .sub .w { display: inline-block; will-change: transform, opacity; }
 
 .glyph { position: absolute; left: var(--x); top: var(--y);
-  width: clamp(64px, 9vw, 120px);
-  margin-left: calc(clamp(64px, 9vw, 120px) / -2);
-  margin-top: calc(clamp(64px, 9vw, 120px) / -2);
+  --g: clamp(64px, min(9vw, 15vh), 120px);
+  width: var(--g); margin-left: calc(var(--g) / -2); margin-top: calc(var(--g) / -2);
   z-index: 1; }
 .glyph svg { display: block; width: 100%; height: auto; overflow: visible; }
 .glyph figcaption { margin-top: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
@@ -125,8 +128,8 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
 
 /* The words inside the ring */
 .center { position: absolute; text-align: center; transform: translate(-50%, -50%); }
-.center h3 { font-family: var(--headline); font-weight: 400; font-size: clamp(1.6rem, 3.4vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; }
-.center p { margin-top: 0.8rem; font-weight: 300; font-size: clamp(0.9rem, 1.25vw, 1.1rem); line-height: 1.5; }
+.center h3 { font-family: var(--headline); font-weight: 400; font-size: clamp(1.4rem, min(3.4vw, 5.6vh), 3rem); line-height: 1.05; letter-spacing: -0.02em; }
+.center p { margin-top: 0.8rem; font-weight: 300; font-size: clamp(0.85rem, min(1.25vw, 2.2vh), 1.1rem); line-height: 1.5; }
 .center .c-links { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; justify-content: center; }
 .center .c-note { margin-top: 0.5rem; font-size: 11px; line-height: 1.6; }
 .center a { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
@@ -134,8 +137,8 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
 /* The stage after the ring: everything so far becomes one dot on a bigger arc */
 #nextstage .empty { stroke-dasharray: 3 4; }
 .next { position: absolute; left: 50%; top: 63%; transform: translateX(-50%); width: min(36rem, 92%); text-align: center; }
-.next h3 { font-family: var(--headline); font-weight: 400; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.02em; }
-.next p { margin-top: 1rem; font-weight: 300; font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.5; }
+.next h3 { font-family: var(--headline); font-weight: 400; font-size: clamp(1.8rem, min(5vw, 7vh), 4rem); line-height: 1; letter-spacing: -0.02em; }
+.next p { margin-top: 1rem; font-weight: 300; font-size: clamp(0.9rem, min(1.4vw, 2.4vh), 1.2rem); line-height: 1.5; }
 .next a { display: inline-block; margin-top: 1.1rem; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
 
 /* ---------- Contact ---------- */
@@ -163,8 +166,7 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
 @media (max-width: 700px) {
   .top { top: 10px; left: 8px; }
   .top.theme { right: 8px; }
-  .visual { left: 4%; right: 4%; top: 9%; bottom: 48%; }
-  .copy { bottom: 5%; }
+  :is(#pianofi, #trivai, #finovax) .stage { padding: 9vh 4% 5vh; row-gap: 3vh; }
   .copy h2 { font-size: 2.3rem; }
   .copy p { margin-top: 0.7rem; font-size: 0.97rem; line-height: 1.45; }
 
@@ -187,4 +189,47 @@ svg text.cap { fill: var(--dim); font-size: 12px; letter-spacing: 0.14em; text-t
 
   .contact { padding: 10vh 20px; }
   .contact ul { flex-direction: column; gap: 0.9rem; }
+}
+
+/* ---------- Phone turned sideways ---------- */
+/* Very short and wide: the drawing sits beside the words instead of above them. */
+@media (max-height: 500px) and (orientation: landscape) {
+  :is(#pianofi, #trivai, #finovax) .stage { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr);
+    column-gap: 4%; padding: 58px 3% 14px; }
+  .visual { grid-area: 1 / 1; }
+  .copy { grid-area: 1 / 2; align-self: center; margin: 0; }
+  .copy h2 { font-size: 1.7rem; }
+  .copy p { margin-top: 0.5rem; font-size: 0.82rem; line-height: 1.4; }
+
+  .hero h1 { font-size: min(13vw, 24vh); }
+  .sub { margin-top: 0.4rem; font-size: 0.9rem; max-width: 36ch; }
+  .glyph { --g: 46px; }
+  .glyph figcaption { margin-top: 5px; font-size: 8px; }
+  .g-keys   { --x: 12%; --y: 34%; }
+  .g-layers { --x: 50%; --y: 13%; }
+  .g-tokens { --x: 88%; --y: 30%; }
+  .g-dots   { --x: 86%; --y: 76%; }
+  .g-play   { --x: 13%; --y: 78%; }
+  .hint { bottom: 8px; }
+
+  .center h3 { font-size: 1.1rem; }
+  .center p { margin-top: 0.3rem; font-size: 0.68rem; line-height: 1.3; }
+  .center .c-links { margin-top: 0.4rem; }
+  .center a { font-size: 9px; }
+  .next h3 { font-size: 1.6rem; }
+  .next p { margin-top: 0.4rem; font-size: 0.8rem; line-height: 1.35; }
+  .next a { margin-top: 0.5rem; }
+}
+/* The smallest phones sideways still use the phone ring, so put its words beside it. */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 700px) {
+  .ring-wrap { inset: 16% 54% 6% 3%; }
+  .center { left: 108%; right: auto; width: 105%; top: 50%; transform: translateY(-50%); }
+  .next { left: 45vw; top: auto; bottom: 0; transform: translateX(-50%); width: 46vw; }
+  .next h3 { font-size: 1.4rem; }
+  .next p { font-size: 0.75rem; }
+}
+/* Sideways on a wider phone: keep the model box above the piano roll, not on top of it. */
+@media (max-height: 500px) and (orientation: landscape) and (min-width: 701px) {
+  #pipe { inset: 0 0 auto 0; height: auto; aspect-ratio: 1000 / 400; }
+  #roll { top: 46px; height: calc(100% - 46px); }
 }
