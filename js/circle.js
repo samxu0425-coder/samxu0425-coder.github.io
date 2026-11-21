@@ -1,5 +1,5 @@
-import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795284212';
-import { WORK } from './content.js?v=1795284212';
+import { gsap, el, timeline, reduce, mobile, lenis } from './setup.js?v=1795284557';
+import { WORK } from './content.js?v=1795284557';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);
@@ -58,7 +58,7 @@ const dots = WORK.map((w, i) => {
   }
   const pick = () => select(i);
   g.addEventListener('mouseenter', pick);
-  g.addEventListener('click', pick);
+  g.addEventListener('click', () => { pick(); jump(i); });
   g.addEventListener('focus', pick);
   return g;
 });
@@ -96,15 +96,16 @@ if (!reduce) gsap.to(beads, { rotation: 360, svgOrigin: `${C} ${C}`, duration: 1
 
 // Scroll: beads gather, the dots land, each piece of work takes its turn, then the ring becomes one dot
 select(0);
-timeline(root)
+const TURNS = { at: 2.2, len: 6 };   // when, on the timeline, the projects take their turns
+const tl = timeline(root)
   .from(q('.bead'), { x: i => scatter[i].x, y: i => scatter[i].y, opacity: 0, duration: 1.8, stagger: 0.01, ease: 'power3.out' }, 0)
   .from(ringLine, { opacity: 0, scale: 0.85, svgOrigin: `${C} ${C}`, duration: 1.2 }, 0.6)
   .from(dots, { opacity: 0, scale: 0, transformOrigin: '50% 50%', duration: 0.5, stagger: 0.08 }, 1.4)
   .from(center, { opacity: 0, duration: 0.6 }, 1.9)
   .to({}, {
-    duration: 6, ease: 'none',
+    duration: TURNS.len, ease: 'none',
     onUpdate() { select(Math.min(WORK.length - 1, Math.floor(this.progress() * WORK.length))); }
-  }, 2.2)
+  }, TURNS.at)
   // next stage: the whole ring shrinks into one dot on a bigger arc
   .to(center, { autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 8.5)
   .to(q('.dot text'), { opacity: 0, duration: 0.4 }, 8.5)
@@ -117,3 +118,13 @@ timeline(root)
   .from(q('.next'), { autoAlpha: 0, duration: 0.1 }, 10.6)
   .from(q('.next > *'), { opacity: 0, y: 20, duration: 0.7, stagger: 0.08 }, 10.6)
   .to({}, { duration: 1.2 });
+
+// Clicking a dot moves the page to that project's turn, so scrolling on from
+// there carries on from it instead of snapping back to where the scroll was.
+function jump(i) {
+  const st = tl.scrollTrigger;
+  const time = TURNS.at + TURNS.len * (i + 0.5) / WORK.length;
+  const y = st.start + (st.end - st.start) * time / tl.duration();
+  if (lenis) lenis.scrollTo(y, { duration: 0.8 });
+  else scrollTo(0, y);
+}
