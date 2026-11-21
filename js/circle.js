@@ -1,5 +1,5 @@
-import { gsap, el, timeline, reduce, mobile, lenis } from './setup.js?v=1795284728';
-import { WORK } from './content.js?v=1795284728';
+import { gsap, el, timeline, reduce, mobile } from './setup.js?v=1795285018';
+import { WORK } from './content.js?v=1795285018';
 
 const root = document.getElementById('circle');
 const q = gsap.utils.selector(root);
@@ -96,7 +96,12 @@ if (!reduce) gsap.to(beads, { rotation: 360, svgOrigin: `${C} ${C}`, duration: 1
 
 // Scroll: beads gather, the dots land, each piece of work takes its turn, then the ring becomes one dot
 select(0);
-let jumping = null, jumpTimer;
+// How far through the turns the scroll is (0 to 1), and, after a click, the point
+// where that scroll position was re-pinned to the clicked project.
+let turnP = 0, pivot = null;
+const remap = p => !pivot ? p
+  : p <= pivot.p ? p / pivot.p * pivot.m
+  : pivot.m + (p - pivot.p) / (1 - pivot.p) * (1 - pivot.m);
 const TURNS = { at: 2.2, len: 6 };   // when, on the timeline, the projects take their turns
 const tl = timeline(root)
   .from(q('.bead'), { x: i => scatter[i].x, y: i => scatter[i].y, opacity: 0, duration: 1.8, stagger: 0.01, ease: 'power3.out' }, 0)
@@ -106,10 +111,9 @@ const tl = timeline(root)
   .to({}, {
     duration: TURNS.len, ease: 'none',
     onUpdate() {
-      const n = Math.min(WORK.length - 1, Math.floor(this.progress() * WORK.length));
-      // After a click, ignore the dots passed on the way until the scroll has caught up.
-      if (jumping !== null) { if (n !== jumping) return; jumping = null; }
-      select(n);
+      turnP = this.progress();
+      if (turnP === 0 || turnP === 1) pivot = null;   // left the ring's turns: back to the plain order
+      select(Math.min(WORK.length - 1, Math.floor(remap(turnP) * WORK.length)));
     }
   }, TURNS.at)
   // next stage: the whole ring shrinks into one dot on a bigger arc
@@ -125,15 +129,9 @@ const tl = timeline(root)
   .from(q('.next > *'), { opacity: 0, y: 20, duration: 0.7, stagger: 0.08 }, 10.6)
   .to({}, { duration: 1.2 });
 
-// Clicking a dot jumps the page straight to that project's turn, with no
-// passing through the ones in between. Scrolling on then carries on from it.
+// Clicking a dot does not move the page at all. It re-pins the current scroll
+// position to the clicked project, so nothing flickers and scrolling on, in
+// either direction, carries on from that project.
 function jump(i) {
-  const st = tl.scrollTrigger;
-  const time = TURNS.at + TURNS.len * (i + 0.5) / WORK.length;
-  const y = st.start + (st.end - st.start) * time / tl.duration();
-  jumping = i;
-  clearTimeout(jumpTimer);
-  jumpTimer = setTimeout(() => { jumping = null; }, 1500);
-  if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
-  else scrollTo(0, y);
+  pivot = { p: Math.min(0.97, Math.max(0.03, turnP)), m: (i + 0.5) / WORK.length };
 }
