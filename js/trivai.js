@@ -1,4 +1,4 @@
-import { gsap, el, timeline, mobile } from './setup.js?v=1795248026';
+import { gsap, el, timeline, mobile } from './setup.js?v=1795283603';
 
 const root = document.getElementById('trivai');
 const q = gsap.utils.selector(root);

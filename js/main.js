@@ -1,11 +1,11 @@
 // Entry point: load each section in scroll order.
-import { ScrollTrigger, lenis } from './setup.js?v=1795248026';
-import { EMAIL, FORM_KEY } from './content.js?v=1795248026';
-import './hero.js?v=1795248026';
-import './pianofi.js?v=1795248026';
-import './trivai.js?v=1795248026';
-import './finovax.js?v=1795248026';
-import './circle.js?v=1795248026';
+import { ScrollTrigger, lenis } from './setup.js?v=1795283603';
+import { EMAIL, FORM_KEY } from './content.js?v=1795283603';
+import './hero.js?v=1795283603';
+import './pianofi.js?v=1795283603';
+import './trivai.js?v=1795283603';
+import './finovax.js?v=1795283603';
+import './circle.js?v=1795283603';
 
 // "Work" skips the project sections and lands on the ring once it has formed,
 // where every project is listed with its link.
@@ -53,3 +53,15 @@ form.addEventListener('submit', async e => {
 
 // Fonts change text sizes, so re-measure once they have loaded.
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+
+// Our own scrollbar: follows the page, shows while scrolling, fades when still.
+const bar = document.querySelector('.scrollbar'), thumb = bar.firstElementChild;
+let barTimer;
+addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  thumb.style.transform = `translateY(${p * (bar.clientHeight - thumb.offsetHeight)}px)`;
+  bar.classList.add('on');
+  clearTimeout(barTimer);
+  barTimer = setTimeout(() => bar.classList.remove('on'), 1200);
+}, { passive: true });
